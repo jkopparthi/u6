@@ -5,5 +5,13 @@ class Customer < ApplicationRecord
   validates :phone_number, presence: true
   validates :email_address,
             format: { with: URI::MailTo::EMAIL_REGEXP },
-            allow_blank: true   # some customers have no email
+            allow_blank: true # some customers have no email
+
+  def self.ransackable_attributes(auth_object = nil)
+    %w[id full_name phone_number email_address notes province created_at updated_at]
+  end
+
+  def self.ransackable_associations(auth_object = nil)
+    %w[image_attachment image_blob]
+  end
 end

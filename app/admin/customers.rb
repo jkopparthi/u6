@@ -1,15 +1,33 @@
-class Customer < ApplicationRecord
-  has_one_attached :image
+ActiveAdmin.register Customer do
+  permit_params :full_name, :phone_number, :email_address, :notes, :province, :image
 
-  validates :full_name, presence: true
-  validates :phone_number, presence: true
-  validates :email_address, format: { with: URI::MailTo::EMAIL_REGEXP }, allow_blank: true
+  filter :full_name
+  filter :email_address
+  filter :phone_number
+  filter :province
+  filter :created_at
 
-  def self.ransackable_attributes(auth_object = nil)
-    %w[id full_name phone_number email_address notes province created_at updated_at]
+  form do |f|
+    f.semantic_errors
+    f.inputs do
+      f.input :full_name
+      f.input :phone_number
+      f.input :email_address
+      f.input :province
+      f.input :notes
+      f.input :image, as: :file
+    end
+    f.actions
   end
 
-  def self.ransackable_associations(auth_object = nil)
-    %w[image_attachment image_blob]
+  show do
+    attributes_table do
+      row :full_name
+      row :phone_number
+      row :email_address
+      row :province
+      row :notes
+      row(:image) { |c| image_tag url_for(c.image), width: 150 if c.image.attached? }
+    end
   end
 end
