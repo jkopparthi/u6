@@ -1,0 +1,15 @@
+<div class="column is-one-quarter">
+  <div class="card">
+    <div class="card-content">
+      <p class="title is-4"><%= customer.full_name %></p>
+      <% if customer.image.attached? %>
+        <figure class="image">
+          <%= image_tag customer.image, alt: customer.full_name, style: "max-height:270px;object-fit:cover;" %>
+        </figure>
+      <% end %>
+      <p class="mt-4"><strong>Province:</strong> <%= customer.province.presence || "Unknown" %></p>
+      <p class="mt-3"><%= customer.phone_number %></p>
+      <p class="mt-3"><%= customer.email_address %></p>
+    </div>
+  </div>
+</div>
